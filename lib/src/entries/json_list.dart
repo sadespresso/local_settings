@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:local_settings/local_settings.dart';
 
-class StringListSettingsEntry<T> extends SettingsEntry<List<T>> {
+class JsonListSettingsEntry<T> extends SettingsEntry<List<T>> {
   /// Converts data to [Set] before saving,
   /// therefore allows no duplicates
   final bool removeDuplicates;
@@ -10,7 +10,7 @@ class StringListSettingsEntry<T> extends SettingsEntry<List<T>> {
   final T Function(Map<String, dynamic> json) fromJson;
   final Map<String, dynamic> Function(T data) toJson;
 
-  StringListSettingsEntry({
+  JsonListSettingsEntry({
     required super.key,
     required super.preferences,
     required this.fromJson,
@@ -19,7 +19,7 @@ class StringListSettingsEntry<T> extends SettingsEntry<List<T>> {
   });
 
   /// No duplicates. See [removeDuplicates]
-  StringListSettingsEntry.set({
+  JsonListSettingsEntry.set({
     required super.key,
     required super.preferences,
     required this.fromJson,
