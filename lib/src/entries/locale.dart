@@ -5,7 +5,7 @@ class LocaleSettingsEntry extends SettingsEntry<Locale> {
   /// Delimiter for stringifying/parsing [Locale]
   final String delimiter;
 
-  const LocaleSettingsEntry({
+  LocaleSettingsEntry({
     required super.key,
     required super.preferences,
     this.delimiter = "-",
@@ -42,6 +42,8 @@ class LocaleSettingsEntry extends SettingsEntry<Locale> {
     ].where((element) => element != null).cast<String>().join(delimiter);
 
     await preferences.setString(key, stringified);
+
+    valueNotifier.value = data;
 
     return data;
   }

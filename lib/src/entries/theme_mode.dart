@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local_settings/src/entry.dart';
 
 class ThemeModeSettingsEntry extends SettingsEntry<ThemeMode> {
-  const ThemeModeSettingsEntry({
+  ThemeModeSettingsEntry({
     required super.key,
     required super.preferences,
   });
@@ -20,6 +20,8 @@ class ThemeModeSettingsEntry extends SettingsEntry<ThemeMode> {
   @override
   Future<ThemeMode> set(ThemeMode data) async {
     await preferences.setString(key, data.name);
+
+    valueNotifier.value = data;
 
     return data;
   }

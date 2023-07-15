@@ -1,6 +1,6 @@
 name: local_settings
-description: A starting point for Dart libraries or applications.
-version: 0.1.1
+description: A basic shared_preferences layer for Flutter apps
+version: 0.2.0
 # repository: https://github.com/my_org/my_repo
 
 environment:

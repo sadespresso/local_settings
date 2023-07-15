@@ -5,14 +5,14 @@ class StringListSettingsEntry extends SettingsEntry<List<String>> {
   /// therefore allows no duplicates
   final bool removeDuplicates;
 
-  const StringListSettingsEntry({
+  StringListSettingsEntry({
     required super.key,
     required super.preferences,
     this.removeDuplicates = false,
   });
 
   /// No duplicates. See [removeDuplicates]
-  const StringListSettingsEntry.set({
+  StringListSettingsEntry.set({
     required super.key,
     required super.preferences,
   }) : removeDuplicates = true;
@@ -81,6 +81,8 @@ class StringListSettingsEntry extends SettingsEntry<List<String>> {
       key,
       removeDuplicates ? data.toSet().toList() : data,
     );
+
+    valueNotifier.value = data;
 
     return data;
   }

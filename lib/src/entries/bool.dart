@@ -3,15 +3,20 @@ import 'package:local_settings/local_settings.dart';
 /// Non-null bool settings entry with default value.
 ///
 /// Use PrimitiveSettingsEntry<bool> for nullable entries
+///
+/// Altough [valueNotifier] is nullably typed, its value
+/// will always be non-null.
 class BoolSettingsEntry extends PrimitiveSettingsEntry<bool> {
   /// If [this]' current value is null, this is automatically set
   final bool defaultValue;
 
-  const BoolSettingsEntry({
+  BoolSettingsEntry({
     required super.key,
     required super.preferences,
     required this.defaultValue,
-  });
+  }) {
+    print(valueNotifier.value);
+  }
 
   /// Gets the boolean value for this entry.
   ///
@@ -45,5 +50,12 @@ class BoolSettingsEntry extends PrimitiveSettingsEntry<bool> {
     set(!currentValue);
 
     return !currentValue;
+  }
+
+  ///
+  @override
+  Future<bool> remove() {
+    valueNotifier.value = defaultValue;
+    return super.remove();
   }
 }

@@ -1,16 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingsEntry<T> {
   final String key;
   final SharedPreferences preferences;
 
-  const SettingsEntry({
+  final ValueNotifier<T?> valueNotifier = ValueNotifier(null);
+
+  void Function(VoidCallback) get addListener => valueNotifier.addListener;
+  void Function(VoidCallback) get removeListener =>
+      valueNotifier.removeListener;
+
+  SettingsEntry({
     required this.key,
     required this.preferences,
-  });
+  }) {
+    valueNotifier.value = get();
+  }
 
   /// Retreives value, may be null
   T? get();
+
+  /// Synonym for [get()]
+  T? get value => get();
 
   /// Saves data to SharedPreferences
   ///
@@ -19,12 +31,13 @@ abstract class SettingsEntry<T> {
 
   /// Deletes entry from SharedPreferences
   Future<bool> remove() async {
+    valueNotifier.value = null;
     return await preferences.remove(key);
   }
 }
 
 class PrimitiveSettingsEntry<T> extends SettingsEntry<T> {
-  const PrimitiveSettingsEntry({
+  PrimitiveSettingsEntry({
     required super.key,
     required super.preferences,
   });
@@ -50,6 +63,8 @@ class PrimitiveSettingsEntry<T> extends SettingsEntry<T> {
       throw UnimplementedError(
           "Implemented types are: String, Iterable<String>, int, double, bool");
     }
+
+    valueNotifier.value = data;
 
     return data;
   }

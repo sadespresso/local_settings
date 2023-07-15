@@ -33,9 +33,9 @@ class LocalSettings {
       preferences: preferences,
     );
     boolean1 = BoolSettingsEntry(
-        key: "boolean", preferences: preferences, defaultValue: true);
+        key: "booleanTrue", preferences: preferences, defaultValue: true);
     boolean2 = BoolSettingsEntry(
-        key: "boolean", preferences: preferences, defaultValue: false);
+        key: "booleanFalse", preferences: preferences, defaultValue: false);
     dateTime = DateTimeSettingsEntry(
       key: "dateTime",
       preferences: preferences,
@@ -81,6 +81,9 @@ void main() async {
 // TestWidgetsFlutterBinding
 
   // SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues({
+    "dateTime": DateTime.now().toIso8601String(),
+  });
   final p = await SharedPreferences.getInstance();
 
   LocalSettings.initialize(p);

@@ -1,7 +1,7 @@
 import 'package:local_settings/local_settings.dart';
 
 class DateTimeSettingsEntry extends SettingsEntry<DateTime> {
-  const DateTimeSettingsEntry({
+  DateTimeSettingsEntry({
     required super.key,
     required super.preferences,
   });
@@ -34,6 +34,8 @@ class DateTimeSettingsEntry extends SettingsEntry<DateTime> {
   @override
   Future<DateTime> set(DateTime data) async {
     await preferences.setString(key, data.toIso8601String());
+
+    valueNotifier.value = data;
 
     return data;
   }
