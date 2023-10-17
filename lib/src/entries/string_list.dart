@@ -8,6 +8,7 @@ class StringListSettingsEntry extends SettingsEntry<List<String>> {
   StringListSettingsEntry({
     required super.key,
     required super.preferences,
+    super.initialValue,
     this.removeDuplicates = false,
   });
 

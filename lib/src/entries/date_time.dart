@@ -4,6 +4,7 @@ class DateTimeSettingsEntry extends SettingsEntry<DateTime> {
   DateTimeSettingsEntry({
     required super.key,
     required super.preferences,
+    super.initialValue,
   });
 
   /// Returns parsed [DateTime], or null if failed to do so

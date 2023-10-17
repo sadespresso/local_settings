@@ -15,6 +15,7 @@ class JsonListSettingsEntry<T> extends SettingsEntry<List<T>> {
     required super.preferences,
     required this.fromJson,
     required this.toJson,
+    super.initialValue,
     this.removeDuplicates = false,
   });
 

@@ -5,6 +5,7 @@ class ThemeModeSettingsEntry extends SettingsEntry<ThemeMode> {
   ThemeModeSettingsEntry({
     required super.key,
     required super.preferences,
+    super.initialValue,
   });
 
   @override

@@ -12,6 +12,7 @@ class JsonSettingsEntry<T> extends SettingsEntry<T> {
     required super.preferences,
     required this.fromJson,
     required this.toJson,
+    super.initialValue,
   });
 
   /// Returns parsed [DateTime], or null if failed to do so

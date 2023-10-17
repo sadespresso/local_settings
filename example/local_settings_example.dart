@@ -26,7 +26,7 @@ class LocalSettings {
     noAnimation = BoolSettingsEntry(
       key: "noAnimation",
       preferences: preferences,
-      defaultValue: false,
+      initialValue: false,
     );
 
     lastLoginTime = DateTimeSettingsEntry(

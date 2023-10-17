@@ -7,6 +7,8 @@ abstract class SettingsEntry<T> {
 
   final ValueNotifier<T?> valueNotifier = ValueNotifier(null);
 
+  final T? initialValue;
+
   void Function(VoidCallback) get addListener => valueNotifier.addListener;
   void Function(VoidCallback) get removeListener =>
       valueNotifier.removeListener;
@@ -14,8 +16,15 @@ abstract class SettingsEntry<T> {
   SettingsEntry({
     required this.key,
     required this.preferences,
+    this.initialValue,
   }) {
     valueNotifier.value = get();
+  }
+
+  Future<void> init() async {
+    if (initialValue != null && !preferences.containsKey(key)) {
+      await set(initialValue as T);
+    }
   }
 
   /// Retreives value, may be null
@@ -34,38 +43,41 @@ abstract class SettingsEntry<T> {
     valueNotifier.value = null;
     return await preferences.remove(key);
   }
+
+  /// Sets value to [initialValue]
+  ///
+  /// If [initialValue] is null, removes the entry
+  Future<T?> reset() async {
+    if (initialValue != null) {
+      await set(initialValue as T);
+    } else {
+      await remove();
+    }
+    return null;
+  }
 }
 
-class PrimitiveSettingsEntry<T> extends SettingsEntry<T> {
-  PrimitiveSettingsEntry({
-    required super.key,
-    required super.preferences,
-  });
+typedef PredicateFn<T> = bool Function(T element);
 
-  @override
-  T? get() {
-    return preferences.get(key) as T?;
-  }
+mixin ListEntry<T> on SettingsEntry<T> {
+  Future<List<T>> addItem(T item);
+  Future<List<T>> addAll(List<T> items);
 
-  @override
-  Future<T> set(T data) async {
-    if (data is String) {
-      await preferences.setString(key, data);
-    } else if (data is Iterable<String>) {
-      await preferences.setStringList(key, data.toList());
-    } else if (data is int) {
-      await preferences.setInt(key, data);
-    } else if (data is double) {
-      await preferences.setDouble(key, data);
-    } else if (data is bool) {
-      await preferences.setBool(key, data);
-    } else {
-      throw UnimplementedError(
-          "Implemented types are: String, Iterable<String>, int, double, bool");
-    }
+  /// Removes [item], and returns the element if
+  /// it was existed in the list.
+  Future<T?> removeItem(T item);
 
-    valueNotifier.value = data;
+  /// Deletes every element in this list
+  Future<void> removeAll();
 
-    return data;
-  }
+  /// Deletes every element in this list
+  Future<void> clear() => removeAll();
+
+  /// Returns the first matched element.
+  T? firstWhere(PredicateFn<T> predicate);
+
+  Future<List<T>> where(PredicateFn<T> predicate);
+
+  Future<void> removeWhere(PredicateFn<T> predicate);
+  Future<void> retainWhere(PredicateFn<T> predicate);
 }

@@ -8,6 +8,7 @@ class LocaleSettingsEntry extends SettingsEntry<Locale> {
   LocaleSettingsEntry({
     required super.key,
     required super.preferences,
+    super.initialValue,
     this.delimiter = "-",
   });
 

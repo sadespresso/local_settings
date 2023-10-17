@@ -27,39 +27,45 @@ class LocalSettings {
     locale = LocaleSettingsEntry(
       key: "locale",
       preferences: preferences,
-    );
+    )..init();
     themeMode = ThemeModeSettingsEntry(
       key: "themeMode",
       preferences: preferences,
-    );
+    )..init();
     boolean1 = BoolSettingsEntry(
-        key: "booleanTrue", preferences: preferences, defaultValue: true);
+      key: "booleanTrue",
+      preferences: preferences,
+      initialValue: true,
+    )..init();
     boolean2 = BoolSettingsEntry(
-        key: "booleanFalse", preferences: preferences, defaultValue: false);
+      key: "booleanFalse",
+      preferences: preferences,
+      initialValue: false,
+    )..init();
     dateTime = DateTimeSettingsEntry(
       key: "dateTime",
       preferences: preferences,
-    );
+    )..init();
     primitiveInt = PrimitiveSettingsEntry<int>(
       key: "primitiveInt",
       preferences: preferences,
-    );
+    )..init();
     primitiveString = PrimitiveSettingsEntry<String>(
       key: "primitiveString",
       preferences: preferences,
-    );
+    )..init();
     primitiveDouble = PrimitiveSettingsEntry<double>(
       key: "primitiveDouble",
       preferences: preferences,
-    );
+    )..init();
     primitiveBool = PrimitiveSettingsEntry<bool>(
       key: "primitiveBool",
       preferences: preferences,
-    );
+    )..init();
     primitiveListString = PrimitiveSettingsEntry<List<String>>(
       key: "primitiveListString",
       preferences: preferences,
-    );
+    )..init();
   }
 
   static initialize(SharedPreferences preferences) {
@@ -87,6 +93,21 @@ void main() async {
   final p = await SharedPreferences.getInstance();
 
   LocalSettings.initialize(p);
+
+  test('Initial value preservation', () async {
+    expect(LocalSettings().primitiveInt.get(), isNull);
+
+    final int valueA = 0x458;
+
+    expect(await LocalSettings().primitiveInt.set(valueA), equals(valueA));
+    expect(LocalSettings().primitiveInt.get(), equals(valueA));
+
+    expect(
+      await LocalSettings().primitiveInt.remove(),
+      TypeMatcher<bool>(),
+    ); // TODO Intention of return value from SharedPreferences.remove() is not documented.
+    expect(LocalSettings().primitiveInt.get(), isNull);
+  });
 
   test('Primitive type: int', () async {
     expect(LocalSettings().primitiveInt.get(), isNull);

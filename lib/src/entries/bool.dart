@@ -13,25 +13,26 @@ class BoolSettingsEntry extends PrimitiveSettingsEntry<bool> {
   BoolSettingsEntry({
     required super.key,
     required super.preferences,
-    required this.defaultValue,
-  }) {
-    print(valueNotifier.value);
-  }
+    required bool initialValue,
+  })  : defaultValue = initialValue,
+        super(initialValue: initialValue);
 
   /// Gets the boolean value for this entry.
   ///
-  /// If the value is null, sets value to [defaultValue], but does not await for the result.
+  /// If the value is null, sets value to [initialValue], but does not await for the result.
   ///
   /// May cause race-condition
   @override
   bool get() {
     final bool? currentValue = super.get();
 
-    if (currentValue != null) return currentValue;
+    if (currentValue == null) {
+      // TODO fix Race-condition issues
+      set(defaultValue);
+      return defaultValue;
+    }
 
-    // TODO fix Race-condition issues
-    set(defaultValue);
-    return defaultValue;
+    return currentValue;
   }
 
   /// Awaits for the .set() call to finish
@@ -55,7 +56,7 @@ class BoolSettingsEntry extends PrimitiveSettingsEntry<bool> {
   ///
   @override
   Future<bool> remove() {
-    valueNotifier.value = defaultValue;
+    valueNotifier.value = initialValue;
     return super.remove();
   }
 }
