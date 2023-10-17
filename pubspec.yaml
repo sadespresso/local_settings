@@ -1,6 +1,6 @@
 name: local_settings
 description: A basic shared_preferences layer for Flutter apps
-version: 0.2.3
+version: 0.3.0
 repository: https://github.com/sadespresso/local_settings
 
 environment:
