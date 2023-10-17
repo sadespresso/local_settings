@@ -2,7 +2,7 @@ import 'package:local_settings/local_settings.dart';
 
 /// Non-null bool settings entry with default value.
 ///
-/// Use PrimitiveSettingsEntry<bool> for nullable entries
+/// Use [PrimitiveSettingsEntry] for nullable entries
 ///
 /// Altough [valueNotifier] is nullably typed, its value
 /// will always be non-null.
