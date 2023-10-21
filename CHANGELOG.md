@@ -1,3 +1,7 @@
+## 0.3.1
+
+* String list and json list now uses `ListEntry` mixin
+
 ## 0.3.0
 
 * Added option to set initial value for entries

@@ -59,25 +59,60 @@ abstract class SettingsEntry<T> {
 
 typedef PredicateFn<T> = bool Function(T element);
 
-mixin ListEntry<T> on SettingsEntry<T> {
-  Future<List<T>> addItem(T item);
-  Future<List<T>> addAll(List<T> items);
+mixin ListEntry<T> on SettingsEntry<List<T>> {
+  Set<T>? get asSet => get()?.toSet();
 
-  /// Removes [item], and returns the element if
-  /// it was existed in the list.
-  Future<T?> removeItem(T item);
+  /// Adds [item] and calls [set]
+  Future<void> addItem(T item) async {
+    final List<T> list = get() ?? [];
+
+    list.add(item);
+
+    await set(list);
+  }
+
+  /// Adds all entries in [items] and
+  /// calls [set]
+  Future<void> addAll(List<T> items) async {
+    final List<T> list = get() ?? [];
+
+    list.addAll(items);
+
+    await set(list);
+  }
+
+  /// Removes [item], and returns whether the
+  /// element was removed
+  Future<bool> removeItem(T item) async {
+    final List<T> list = get() ?? [];
+    if (list.isEmpty) return false;
+
+    final removed = list.remove(item);
+
+    await set(list);
+    return removed;
+  }
+
+  /// Removes all [items] from [this]
+  Future<void> removeMultiple(List<T> items) =>
+      removeWhere((element) => items.contains(element));
 
   /// Deletes every element in this list
-  Future<void> removeAll();
+  Future<void> clear() => set([]);
 
-  /// Deletes every element in this list
-  Future<void> clear() => removeAll();
+  Future<void> removeWhere(PredicateFn<T> predicate) async {
+    final list = get() ?? [];
+    if (list.isEmpty) return;
 
-  /// Returns the first matched element.
-  T? firstWhere(PredicateFn<T> predicate);
+    list.removeWhere(predicate);
+    await set(list);
+  }
 
-  Future<List<T>> where(PredicateFn<T> predicate);
+  Future<void> retainWhere(PredicateFn<T> predicate) async {
+    final list = get() ?? [];
+    if (list.isEmpty) return;
 
-  Future<void> removeWhere(PredicateFn<T> predicate);
-  Future<void> retainWhere(PredicateFn<T> predicate);
+    list.retainWhere(predicate);
+    await set(list);
+  }
 }

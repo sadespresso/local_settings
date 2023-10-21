@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:local_settings/local_settings.dart';
 
-class JsonListSettingsEntry<T> extends SettingsEntry<List<T>> {
+class JsonListSettingsEntry<T> extends SettingsEntry<List<T>> with ListEntry {
   /// Converts data to [Set] before saving,
   /// therefore allows no duplicates
   final bool removeDuplicates;
@@ -34,59 +34,6 @@ class JsonListSettingsEntry<T> extends SettingsEntry<List<T>> {
     if (raw == null) return null;
 
     return raw.map((e) => fromJson(jsonDecode(e))).toList();
-  }
-
-  Set<T>? get asSet => get()?.toSet();
-
-  /// Adds an item to the list, and calls [set] with the updated value
-  Future<List<T>> addItem(T value) async {
-    final List<T> list = get() ?? [];
-
-    list.add(value);
-
-    return await set(list);
-  }
-
-  /// Adds an item to the list, and calls [set] with the updated value
-  Future<List<T>> addAll(List<T> value) async {
-    final List<T> list = get() ?? [];
-
-    list.addAll(value);
-
-    return await set(list);
-  }
-
-  /// Removes an item from the list, and calls [set] with the updated value
-  ///
-  /// If there are multiple entries, only removes the first occurence
-  Future<List<T>> removeItem(T value) async {
-    final List<T> list = get() ?? [];
-
-    if (list.isEmpty) return list;
-
-    final bool removed = list.remove(value);
-
-    // If the item wasn't there, we can save the trip
-    if (!removed) return list;
-
-    return await set(list);
-  }
-
-  /// Removes an item from the list, and calls [set] with the updated value
-  ///
-  /// If there are multiple entries, only removes the first occurence
-  Future<List<T>> removeAll(List<T> value) async {
-    final List<T> list = get() ?? [];
-
-    if (list.isEmpty) return list;
-
-    final List<bool> removedStatuses =
-        value.map((item) => list.remove(item)).toList();
-
-    // If the item wasn't there, we can save the trip
-    if (!removedStatuses.any((x) => x)) return list;
-
-    return await set(list);
   }
 
   @override
