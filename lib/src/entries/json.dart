@@ -15,11 +15,6 @@ class JsonSettingsEntry<T> extends SettingsEntry<T> {
     super.initialValue,
   });
 
-  /// Returns parsed [DateTime], or null if failed to do so
-  ///
-  /// See also:
-  /// * [utc]
-  /// * [local]
   @override
   T? get() {
     final String? raw = preferences.getString(key);
@@ -37,7 +32,6 @@ class JsonSettingsEntry<T> extends SettingsEntry<T> {
     return null;
   }
 
-  /// Stores [data] as ISO8601 string in shared preferences
   @override
   Future<T> set(T data) async {
     await preferences.setString(key, jsonEncode(toJson(data)));
