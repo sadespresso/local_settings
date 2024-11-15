@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingsEntry<T> {
-  final String key;
+  late final String key;
   final SharedPreferences preferences;
 
   final ValueNotifier<T?> valueNotifier = ValueNotifier(null);
@@ -13,7 +13,24 @@ abstract class SettingsEntry<T> {
   void Function(VoidCallback) get removeListener =>
       valueNotifier.removeListener;
 
+  /// Does not include any sort of conncetors.
+  ///
+  /// Recommended to use separators, such as a dot (.)
+  ///
+  /// e.g., `"myapp."`
+  static String defaultPrefix = "";
+
   SettingsEntry({
+    required String key,
+    required this.preferences,
+    this.initialValue,
+  }) {
+    valueNotifier.value = get();
+    this.key = defaultPrefix + key;
+  }
+
+  /// Does not include the default prefix.
+  SettingsEntry.raw({
     required this.key,
     required this.preferences,
     this.initialValue,

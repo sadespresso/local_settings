@@ -1,3 +1,11 @@
+## 0.5.0
+
+* Added default prefix option. Defaults to nothing.
+
+## 0.4.0
+
+* Added `SerializedSettingsEntry` and `SerializedListSettingsEntry`
+
 ## 0.3.1
 
 * String list and json list now uses `ListEntry` mixin
