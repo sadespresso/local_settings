@@ -25,8 +25,8 @@ abstract class SettingsEntry<T> {
     required this.preferences,
     this.initialValue,
   }) {
-    valueNotifier.value = get();
     this.key = defaultPrefix + key;
+    valueNotifier.value = get();
   }
 
   /// Does not include the default prefix.
