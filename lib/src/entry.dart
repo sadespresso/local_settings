@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingsEntry<T> {
   late final String key;
-  final SharedPreferences preferences;
+  final SharedPreferencesWithCache preferences;
 
   final ValueNotifier<T?> valueNotifier = ValueNotifier(null);
 
@@ -56,7 +56,7 @@ abstract class SettingsEntry<T> {
   Future<T> set(T data);
 
   /// Deletes entry from SharedPreferences
-  Future<bool> remove() async {
+  Future<void> remove() async {
     valueNotifier.value = null;
     return await preferences.remove(key);
   }

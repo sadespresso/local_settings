@@ -28,7 +28,7 @@ class ThemeModeSettingsEntry extends SettingsEntry<ThemeMode> {
   }
 
   @override
-  Future<bool> remove() async {
+  Future<void> remove() async {
     return await preferences.remove(key);
   }
 }

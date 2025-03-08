@@ -55,7 +55,7 @@ class BoolSettingsEntry extends PrimitiveSettingsEntry<bool> {
 
   ///
   @override
-  Future<bool> remove() {
+  Future<void> remove() {
     valueNotifier.value = initialValue;
     return super.remove();
   }
