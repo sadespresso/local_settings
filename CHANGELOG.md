@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Now uses `SharedPreferencesWithCache`, and requires `shared_preferences: ^2.5.2`
+
 ## 0.5.0
 
 * Added default prefix option. Defaults to nothing.
