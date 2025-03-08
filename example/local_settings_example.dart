@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalSettings {
   static LocalSettings? instance;
 
-  final SharedPreferences preferences;
+  final SharedPreferencesWithCache preferences;
 
   late final ThemeModeSettingsEntry themeMode;
   late final BoolSettingsEntry noAnimation;
@@ -45,7 +45,7 @@ class LocalSettings {
     );
   }
 
-  static initialize(SharedPreferences preferences) {
+  static initialize(SharedPreferencesWithCache preferences) {
     instance = LocalSettings._internal(preferences);
 
     return instance;
